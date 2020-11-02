@@ -15,11 +15,13 @@ public class InputManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _model.Move(GetInput());
+        _model.Move(GetMovementInput());
         _model.Look(GetMousePosition());
+
+        if (Input.GetButton("Fire1")) _model.Shoot();
     }
 
-    Vector3 GetInput()
+    Vector3 GetMovementInput()
     {
         // es un getAxisRaw para que la reaccion sea mas rapida
         var xDir = Input.GetAxisRaw("Horizontal");

@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class EntityModel : MonoBehaviour
 {
+    [SerializeField] GunController _gunController;
     [SerializeField] float _speed;
+    [SerializeField] float _initialhealth;
+
     Rigidbody _rb;
+    HealthComponent _health;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _health = new HealthComponent(_initialhealth, Death);
     }
 
     //FUNCIONES DE ACCIONES
@@ -22,5 +27,20 @@ public class EntityModel : MonoBehaviour
     public void Look(Vector3 point)
     {
         transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
+    }
+
+    public void Shoot()
+    {
+        _gunController.Shoot();
+    }
+
+    public void ChangeLife(float amount)
+    {
+        _health.ChangeLife(amount);
+    }
+
+    public void Death()
+    {
+        Destroy(gameObject);
     }
 }
