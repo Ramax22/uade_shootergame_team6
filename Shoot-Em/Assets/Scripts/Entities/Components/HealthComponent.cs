@@ -23,4 +23,9 @@ public class HealthComponent
 
         if (_actualHealth == 0) _myDelegate.Invoke();
     }
+
+    public float GetLife()
+    {
+        return _actualHealth;
+    }
 }

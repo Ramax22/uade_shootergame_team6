@@ -43,4 +43,10 @@ public class EntityModel : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
+    //Funciones de interacciones con componentes
+    public float GetHealth()
+    {
+        return _health.GetLife();
+    }
 }
