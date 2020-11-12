@@ -7,6 +7,13 @@ public class IdleState<T> : FSMState<T>
 {
     //variables
     float _timer;
+    EntityController _controller;
+
+    //Constructor
+    public IdleState(EntityController controller)
+    {
+        _controller = controller;
+    }
 
     //Sobreescribo la función Awake de la clase FSMState
     public override void Awake()
@@ -17,10 +24,9 @@ public class IdleState<T> : FSMState<T>
     //Sobreescribo la funcion de Execute de la clase FSMState
     public override void Execute()
     {
-        Debug.Log("Execute - Idle");
         //Resto el timer
         if (_timer > 0) _timer -= Time.deltaTime;
-        //else _controller.ExecuteTree();
+        else _controller.ExecuteTree();
     }
 
     //Sobreescribo la funcion de Sleep de la clase FSMState

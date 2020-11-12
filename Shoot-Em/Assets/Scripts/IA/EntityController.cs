@@ -28,8 +28,18 @@ public class EntityController : MonoBehaviour
     //Referencia al componente sight
     Sight _sight;
 
+    //Lista de nodos
+    [SerializeField] List<Node> _list;
+
+    //Model
+    EntityModel _model;
+
+    //Mask
+    [SerializeField] LayerMask _mask;
+
     private void Awake()
     {
+        _model = GetComponent<EntityModel>(); //Agarro el componente EntityModel
         _sight = GetComponent<Sight>(); //Agarro el componente sight
 
         InitFSM(); //Init de todo lo relacionado con la FSM
@@ -40,13 +50,6 @@ public class EntityController : MonoBehaviour
     private void Update()
     {
         _fsm.OnUpdate();
-
-        //TESTING
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ExecuteTree();
-            //Debug.Log(_sight.SawTarget());
-        }
     }
 
     #region ~~~ FSM ~~~
@@ -57,13 +60,13 @@ public class EntityController : MonoBehaviour
         _fsm = new FSM<string>();
 
         //Creo los distintos estados 
-        IdleState<string> idleState = new IdleState<string>();
-        SearchState<string> searchState = new SearchState<string>();
+        IdleState<string> idleState = new IdleState<string>(this);
+        SearchState<string> searchState = new SearchState<string>(_list, transform, _mask, this);
         SightPursuitState<string> sightPursuitState = new SightPursuitState<string>();
         NoSightPursuitState<string> noSightPursuitState = new NoSightPursuitState<string>();
         EscapeState<string> escapeState = new EscapeState<string>();
         AttackState<string> attackState = new AttackState<string>();
-        SleepState<string> sleepState = new SleepState<string>();
+        SleepState<string> sleepState = new SleepState<string>(this);
 
         //Creo las transiciones de cada estado
         idleState.AddTransition(_search, searchState);
@@ -109,7 +112,8 @@ public class EntityController : MonoBehaviour
         sleepState.AddTransition(_noSightPursuit, noSightPursuitState);
 
         //Inicializo la FSM
-        _fsm.SetInitialState(idleState);
+        //_fsm.SetInitialState(idleState);
+        _fsm.SetInitialState(searchState);
     }
 
     //Funciones para transiciones
@@ -170,6 +174,13 @@ public class EntityController : MonoBehaviour
     {
         float distance = Vector3.Distance(_sight.LastPoint(), transform.position);
         return distance > 2;
+    }
+    #endregion
+
+    #region ~~~ MODEL FUNCTIONS ~~~
+    public void Move(Vector3 dir)
+    {
+        _model.Move(dir);
     }
     #endregion
 }
