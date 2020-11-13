@@ -48,7 +48,6 @@ public class SearchState<T> : FSMState<T>
         if (_pointer < _path.Count)
         {
             //Agarro la posicion del vector
-            UnityEngine.Debug.Log(_pointer + " - " + _path.Count);
             Vector3 positionToGo = _path[_pointer].transform.position;
             positionToGo.y = _body.transform.position.y;
 
@@ -61,7 +60,7 @@ public class SearchState<T> : FSMState<T>
             Vector3 diff = positionToGo - _body.transform.position;
             float distance = diff.magnitude;
 
-            if (distance < 2) _pointer++;
+            if (distance <= 1) _pointer++;
         } 
         else
         {
@@ -91,7 +90,10 @@ public class SearchState<T> : FSMState<T>
             float dist = diff.magnitude;
             //Verifico si no hay obstaculos entre medio y si la distancia es menor a la distancia del nodo anterior
             bool isFree = Physics.Raycast(_body.transform.position, diff.normalized, dist, _obstaclesMask);
-            if (dist < currentDistance && !isFree) nearestNode = item;
+            if (dist < currentDistance && !isFree) {
+                currentDistance = dist;
+                nearestNode = item; 
+            }
         }
         return nearestNode;
     }

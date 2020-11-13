@@ -20,22 +20,22 @@ public class EntityController : MonoBehaviour
     QuestionNode _sawTarget;
     QuestionNode _isSeeingTarget;
     QuestionNode _hasPointToGo;
+    QuestionNode _isInDistance;
 
     //Roulette
     Roulette<string> _actionRoulette;
     Dictionary<string, int> _statesRoulette;
 
-    //Referencia al componente sight
-    Sight _sight;
-
-    //Lista de nodos
-    [SerializeField] List<Node> _list;
-
-    //Model
+    //Variables
+    Sight _sight; //Referencia al componente sight
+    [SerializeField] List<Node> _list; //Lista de todos los nodos del mapa
     EntityModel _model;
+    [SerializeField] LayerMask _mask; //mask de los obstaculos
+    [SerializeField] Transform _entityTarget;
+    [SerializeField] EntityModel _targetModel;
 
-    //Mask
-    [SerializeField] LayerMask _mask;
+    //Variables de la Pseudo-blackboard
+    Vector3 _targetLastPos;
 
     private void Awake()
     {
@@ -62,10 +62,10 @@ public class EntityController : MonoBehaviour
         //Creo los distintos estados 
         IdleState<string> idleState = new IdleState<string>(this);
         SearchState<string> searchState = new SearchState<string>(_list, transform, _mask, this);
-        SightPursuitState<string> sightPursuitState = new SightPursuitState<string>();
-        NoSightPursuitState<string> noSightPursuitState = new NoSightPursuitState<string>();
+        SightPursuitState<string> sightPursuitState = new SightPursuitState<string>(_entityTarget, this, _mask);
+        NoSightPursuitState<string> noSightPursuitState = new NoSightPursuitState<string>(this);
         EscapeState<string> escapeState = new EscapeState<string>();
-        AttackState<string> attackState = new AttackState<string>();
+        AttackState<string> attackState = new AttackState<string>(_targetModel, this);
         SleepState<string> sleepState = new SleepState<string>(this);
 
         //Creo las transiciones de cada estado
@@ -113,7 +113,8 @@ public class EntityController : MonoBehaviour
 
         //Inicializo la FSM
         //_fsm.SetInitialState(idleState);
-        _fsm.SetInitialState(searchState);
+        //_fsm.SetInitialState(searchState);
+        _fsm.SetInitialState(sightPursuitState);
     }
 
     //Funciones para transiciones
@@ -134,9 +135,11 @@ public class EntityController : MonoBehaviour
         ActionNode _sightPursuitNode = new ActionNode(GoToSightPursuitState);
         ActionNode _noSightPursuitNode = new ActionNode(GoToNoSightPursuitState);
         ActionNode _randomState = new ActionNode(GoToRandomState);
+        ActionNode _attackNode = new ActionNode(GoToAttackState);
 
+        _isInDistance = new QuestionNode(IsInAttackDistance, _attackNode, _sightPursuitNode);
         _hasPointToGo = new QuestionNode(CanGoToLastPoint, _noSightPursuitNode, _randomState);
-        _isSeeingTarget = new QuestionNode(_sight.SawTarget, _sightPursuitNode, _hasPointToGo);
+        _isSeeingTarget = new QuestionNode(_sight.SawTarget, _isInDistance, _hasPointToGo);
         _sawTarget = new QuestionNode(_sight.SawTargetOnce, _isSeeingTarget, _randomState);
     }
 
@@ -175,12 +178,37 @@ public class EntityController : MonoBehaviour
         float distance = Vector3.Distance(_sight.LastPoint(), transform.position);
         return distance > 2;
     }
+
+    //Funcion que determina si esta o no a distancia de ataque
+    bool IsInAttackDistance()
+    {
+        Vector3 diff = _entityTarget.position - transform.position;
+        float dist = diff.magnitude;
+        return dist < 2;
+    }
     #endregion
 
     #region ~~~ MODEL FUNCTIONS ~~~
     public void Move(Vector3 dir)
     {
         _model.Move(dir);
+    }
+    #endregion
+
+    #region ~~~ PSEUDO-BLACKBOARD ~~~
+    public void SaveTargetLastPosition(Vector3 position)
+    {
+        _targetLastPos = position;
+    }
+
+    public Vector3 GetTargetLastPosition()
+    {
+        return _targetLastPos;
+    }
+
+    public void ResetSight()
+    {
+        _sight.ResetSawTargetOnce();
     }
     #endregion
 }

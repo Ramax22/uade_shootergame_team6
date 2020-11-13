@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 410826584}
   - component: {fileID: 410826583}
   - component: {fileID: 410826582}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1083,7 +1083,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 904836376}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 5.83, y: 0, z: 6.36}
+  m_LocalPosition: {x: 9.05, y: 0, z: -3.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1631287058}
@@ -1176,7 +1176,7 @@ GameObject:
   - component: {fileID: 947778715}
   - component: {fileID: 947778714}
   - component: {fileID: 947778713}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GunModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1378,7 +1378,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1181597888}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1393,7 +1393,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1181597887}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2, y: 1, z: -47.6}
+  m_LocalPosition: {x: 7.1, y: 1, z: -8.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410826581}
@@ -1789,7 +1789,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1631287057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: -7.77, y: 0.5, z: -10.66}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 904836377}
@@ -1830,6 +1830,8 @@ MonoBehaviour:
   _mask:
     serializedVersion: 2
     m_Bits: 256
+  _entityTarget: {fileID: 410826581}
+  _targetModel: {fileID: 410826582}
 --- !u!65 &1631287061
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2324,7 +2326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2086629201}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Shootpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2355,7 +2357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133035792}
   - component: {fileID: 2133035793}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GunContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -29,6 +29,8 @@ public class Sight : MonoBehaviour
     //Funcion que chequea si el target esta a la vista
     void IsInSight()
     {
+        if (_target == null) return;
+
         _sawTarget = false;
         if (!CheckDistance()) return; //Chequeo distancia
         if (!CheckAngle()) return; //Chequeo angulo
@@ -81,6 +83,11 @@ public class Sight : MonoBehaviour
     public bool SawTargetOnce()
     {
         return _sawTargetOnce;
+    }
+
+    public void ResetSawTargetOnce()
+    {
+        _sawTargetOnce = false;
     }
 
     //Funcion que devuelve la ultima posicion donde vio al target
