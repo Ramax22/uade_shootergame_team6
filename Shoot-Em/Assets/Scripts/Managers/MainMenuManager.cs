@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class MainMenuManager : MonoBehaviour
     }
 
     // Funcion de botones del Main Menu
+    public void PlayGame()
+    {
+        SceneManager.LoadScene(1);
+    }
 
     //acceder a la pantalla de About
     public void ChangeToAboutScreen()

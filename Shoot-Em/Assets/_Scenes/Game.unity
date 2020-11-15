@@ -2469,7 +2469,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 200
-  field of view: 8.566912
+  field of view: 40
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -2514,8 +2514,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entityToFollow: {fileID: 1366253206}
-  _zOffset: 120
+  _zOffset: 30
   _xOffset: 0
+  _yOffset: -30
 --- !u!1001 &424124886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6257,7 +6258,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1205947964}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 647138639}
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1205947964
 MonoBehaviour:
   m_ObjectHideFlags: 0

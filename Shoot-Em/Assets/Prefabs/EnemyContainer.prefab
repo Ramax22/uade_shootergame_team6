@@ -129,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gunController: {fileID: 0}
   _speed: 5
+  _ogspeed: 0
   _initialhealth: 35
 --- !u!114 &8155642935977766527
 MonoBehaviour:
@@ -143,8 +144,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 0}
-  _range: 10
-  _angle: 90
+  _range: 30
+  _angle: 100
   _mask:
     serializedVersion: 2
     m_Bits: 256

@@ -43,7 +43,7 @@ public class EntityModel : MonoBehaviour
 
     public void Death()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
     //Funciones de interacciones con componentes

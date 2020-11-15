@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] Transform _entityToFollow;
     [SerializeField] float _zOffset;
     [SerializeField] float _xOffset;
+    [SerializeField] float _yOffset;
 
 
     private void Update()
@@ -15,7 +16,7 @@ public class CameraManager : MonoBehaviour
         Vector3 pos = _entityToFollow.position;
         pos.x -= _xOffset;
         pos.z -= _zOffset;
-        pos.y = transform.position.y;
+        pos.y -= _yOffset;
         transform.position = pos;
     }
 }

@@ -11,7 +11,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public int totalEnemies;
 
     [Header("Variables")]
-    [SerializeField] public int currentWave;
+    [SerializeField] private int currentWave;
     [SerializeField] private int nextWave;
     [SerializeField] public float searchTimer;
     [SerializeField] private float originalTimer;
@@ -24,6 +24,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public Wave[] waves;
     [SerializeField] public Transform[] spawnPoints;
     [SerializeField] public Transform spawn;
+
+    public int CurrentWave { get => currentWave; }
 
     [System.Serializable]
     public class Wave
@@ -62,7 +64,7 @@ public class WaveManager : MonoBehaviour
 
         if (state != SpawnState.SPAWNING)
         {
-            StartCoroutine(SpawnWave(waves[currentWave]));
+            StartCoroutine(SpawnWave(waves[CurrentWave]));
         }
     }
 

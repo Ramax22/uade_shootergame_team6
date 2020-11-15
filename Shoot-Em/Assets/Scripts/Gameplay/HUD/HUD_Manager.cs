@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HUD_Manager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class HUD_Manager : MonoBehaviour
     [SerializeField] Text _waveText;
     [SerializeField] GameObject _pauseMenu;
     [SerializeField] GameObject _inGameHUD;
-
+    [SerializeField] WaveManager _waveManager;
 
     float _actualTime;
     int _waveNumber;
@@ -31,6 +32,7 @@ public class HUD_Manager : MonoBehaviour
         UpdateLife();
         UpdateWave();
         PauseMenuManager();
+        if (Input.GetKeyDown(KeyCode.Space)) Debug.Log(_waveManager.CurrentWave);
     }
 
     #region ~~~ HUD MENU ~~~
@@ -52,7 +54,8 @@ public class HUD_Manager : MonoBehaviour
     //funcion para actualizar el numero de la wave
     void UpdateWave()
     {
-        _waveText.text = "WAVE: " + _waveNumber;
+        int wave = _waveManager.CurrentWave;
+        _waveText.text = "WAVE: " + wave;
     }
     #endregion
 
@@ -84,6 +87,12 @@ public class HUD_Manager : MonoBehaviour
         _pauseMenu.SetActive(false);
         _inGameHUD.SetActive(true);
         Time.timeScale = 1;
+    }
+
+    //Funcion para ir al Main Menu
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
     #endregion
 }
