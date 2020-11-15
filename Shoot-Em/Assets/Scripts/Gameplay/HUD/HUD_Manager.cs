@@ -21,6 +21,9 @@ public class HUD_Manager : MonoBehaviour
     [Header("Win Screen vars")]
     [SerializeField] Text _scoreText;
 
+    [Header("Lose Screen vars")]
+    [SerializeField] Text _scoreTextLose;
+
     [Header("Extras")]
     [SerializeField] EntityModel _playerModel;
     [SerializeField] WaveManager _waveManager;
@@ -67,7 +70,7 @@ public class HUD_Manager : MonoBehaviour
     //funcion para actualizar el numero de la wave
     void UpdateWave()
     {
-        int wave = _waveManager.CurrentWave;
+        int wave = _waveManager.CurrentWave + 1;
         _waveText.text = "WAVE: " + wave;
     }
     #endregion
@@ -110,6 +113,17 @@ public class HUD_Manager : MonoBehaviour
         _winScreen.SetActive(true);
         Time.timeScale = 0;
         _scoreText.text = "Your playtime was: " + _actualTime + "s";
+        _pauseMenu.SetActive(false);
+        _inGameHUD.SetActive(false);
+    }
+    #endregion
+
+    #region ~~~ LOSE MENU ~~~
+    public void LoseGame()
+    {
+        _loseScreen.SetActive(true);
+        Time.timeScale = 0;
+        _scoreTextLose.text = "Your playtime was: " + _actualTime + "s";
         _pauseMenu.SetActive(false);
         _inGameHUD.SetActive(false);
     }
