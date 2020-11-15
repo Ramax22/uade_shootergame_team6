@@ -20,11 +20,6 @@ public class EntityModel : MonoBehaviour
         _health = new HealthComponent(_initialhealth, Death);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space)) ChangeLife(10000f);
-    }
-
     //FUNCIONES DE ACCIONES
     public void Move(Vector3 dir)
     {
