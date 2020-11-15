@@ -14,18 +14,22 @@ public class SearchState<T> : FSMState<T>
     List<Node> _path;
     int _pointer;
     EntityController _controller;
+    Avoid _avoid;
+    LayerMask _avoidableObjects;
 
     //Pathfinding
     BFS<Node> _bfs = new BFS<Node>();
 
     //Constructor
-    public SearchState(List<Node> nodes, Transform body, LayerMask obstacles, EntityController controller)
+    public SearchState(List<Node> nodes, Transform body, LayerMask obstacles, EntityController controller, Transform targetTransform, LayerMask avoidableObjects)
     {
         //Asigno las variables
         _nodes = nodes;
         _body = body;
         _obstaclesMask = obstacles;
         _controller = controller;
+        _avoidableObjects = avoidableObjects;
+        _avoid = new Avoid(_controller.transform, 2.5f, 0.8f, _avoidableObjects);
     }
 
     //Sobreescribo la función Awake de la clase FSMState
@@ -48,23 +52,20 @@ public class SearchState<T> : FSMState<T>
         if (_pointer < _path.Count)
         {
             //Agarro la posicion del vector
-            Vector3 positionToGo = _path[_pointer].transform.position;
-            positionToGo.y = _body.transform.position.y;
+            _avoid.SetTarget(_path[_pointer].transform);
+            _controller.Move(_avoid.GetDir());
+            _controller.Look(_path[_pointer].transform.position);
 
-            _body.transform.LookAt(positionToGo);
+            Vector3 target = _path[_pointer].transform.position;
 
-            Vector3 move = _body.transform.forward;
-
-            _controller.Move(move);
-
-            Vector3 diff = positionToGo - _body.transform.position;
+            Vector3 diff = target - _body.transform.position;
             float distance = diff.magnitude;
 
             if (distance <= 1) _pointer++;
         } 
         else
         {
-            _controller.ExecuteTree();
+            _controller.ExecuteTreeFromSleep();
         }
     }
 

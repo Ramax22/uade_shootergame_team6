@@ -25,7 +25,7 @@ public class SleepState<T> : FSMState<T>
     {
         //Resto el timer
         if (_timer > 0) _timer -= Time.deltaTime;
-        else _controller.ExecuteTree();
+        else _controller.ExecuteTreeFromSleep();
     }
 
     //Sobreescribo la funcion de Sleep de la clase FSMState

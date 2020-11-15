@@ -4,6 +4,21 @@ using UnityEngine;
 
 public class EscapeState<T> : FSMState<T>
 {
+    //Variables
+    Evade _evade;
+    EntityController _controller;
+    Transform _target;
+    Rigidbody _rb;
+
+    //Constructor
+    public EscapeState(EntityController controller, Transform targetTransform, Rigidbody rb)
+    {
+        _controller = controller;
+        _target = targetTransform;
+        _rb = rb;
+        _evade = new Evade(_controller.transform, _target, _rb, 0.5f);
+    }
+
     //Sobreescribo la función Awake de la clase FSMState
     public override void Awake()
     {
@@ -13,7 +28,7 @@ public class EscapeState<T> : FSMState<T>
     //Sobreescribo la funcion de Execute de la clase FSMState
     public override void Execute()
     {
-        Debug.Log("Execute - Escape");
+        _controller.Move(_evade.GetDir());
     }
 
     //Sobreescribo la funcion de Sleep de la clase FSMState

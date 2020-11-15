@@ -25,6 +25,11 @@ public class FSM<T>
         }
     }
 
+    public FSMState<T> GetState()
+    {
+        return _current;
+    }
+
     //Funcion donde declaro el initialState como _current y ejecuto su awake
     public void SetInitialState(FSMState<T> initialState)
     {

@@ -9,15 +9,19 @@ public class Sight : MonoBehaviour
     [SerializeField] float _range;
     [SerializeField] float _angle;
     [SerializeField] LayerMask _mask;
+    EntityController _controller;
     bool _sawTargetOnce; //esta varaible determina si ya vio al player en su tiempo de vida
     bool _sawTarget; //Esta variable determina si esta viendo al player en este preciso momento
     Vector3 _lastPoint; //Esta variable se usa para que el codigo guarde donde fue la última vez que vio al jugador
+    bool _alreadyCalled;
 
     private void Awake()
     {
         _sawTarget = false;
         _sawTargetOnce = false;
         _lastPoint = Vector3.zero;
+        _controller = GetComponent<EntityController>();
+        _alreadyCalled = false;
     }
 
     private void Update()
@@ -36,9 +40,16 @@ public class Sight : MonoBehaviour
         if (!CheckAngle()) return; //Chequeo angulo
         if (!CheckObstacles()) return;//Chequeo si hay obstaculos o no
 
+
+        
         _sawTarget = true;
         _sawTargetOnce = true;
         _lastPoint = _target.transform.position;
+        if (!_alreadyCalled)
+        {
+            _controller.ExecuteTree();
+            _alreadyCalled = true;
+        }
     }
 
     //Funcion que chequea que el target este en la distancia de vision de la entidad
@@ -88,6 +99,7 @@ public class Sight : MonoBehaviour
     public void ResetSawTargetOnce()
     {
         _sawTargetOnce = false;
+        _alreadyCalled = false;
     }
 
     //Funcion que devuelve la ultima posicion donde vio al target
@@ -103,6 +115,12 @@ public class Sight : MonoBehaviour
         _lastPoint = Vector3.zero;
         _sawTarget = false;
         _sawTargetOnce = false;
+    }
+
+    //Funcion que establece un target
+    public void SetTarget(Transform target)
+    {
+        _target = target;
     }
     #endregion
 }

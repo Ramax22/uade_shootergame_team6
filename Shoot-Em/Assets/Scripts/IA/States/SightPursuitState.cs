@@ -9,12 +9,17 @@ public class SightPursuitState<T> : FSMState<T>
     EntityController _controller;
     Vector3 _targetLastPosition;
     LayerMask _obstacleMask;
+    Pursit _pursuit;
+    Rigidbody _targetRb;
+
     //Contructor 
     public SightPursuitState(Transform target, EntityController controller, LayerMask obstacleMask)
     {
         _target = target;
         _controller = controller;
         _obstacleMask = obstacleMask;
+        _targetRb = target.GetComponent<Rigidbody>();
+        _pursuit = new Pursit(_controller.transform, _target, _targetRb, 0.5f);
     }
 
     //Sobreescribo la función Awake de la clase FSMState
@@ -26,18 +31,13 @@ public class SightPursuitState<T> : FSMState<T>
     //Sobreescribo la funcion de Execute de la clase FSMState
     public override void Execute()
     {
-        //Le digo que mire hacia el target y que vaya hacia él
-        Vector3 positionToGo = _target.position;
-        positionToGo.y = _controller.transform.position.y;
 
-        _controller.transform.LookAt(positionToGo);
-
-        Vector3 move = _controller.transform.forward;
-
-        _controller.Move(move);
+        Vector3 positionToGo = _pursuit.GetDir();
+        _controller.Move(positionToGo);
+        _controller.Look(_target.position);
 
         //Me guardo la última posición donde ví al target
-        _targetLastPosition = positionToGo;
+        _targetLastPosition = _target.position;
 
         //Calculo la distancia
         Vector3 diff = _target.position - _controller.transform.position;

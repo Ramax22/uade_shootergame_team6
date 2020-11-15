@@ -28,19 +28,29 @@ public class EntityController : MonoBehaviour
 
     //Variables
     Sight _sight; //Referencia al componente sight
-    [SerializeField] List<Node> _list; //Lista de todos los nodos del mapa
+    List<Node> _list; //Lista de todos los nodos del mapa
     EntityModel _model;
     [SerializeField] LayerMask _mask; //mask de los obstaculos
-    [SerializeField] Transform _entityTarget;
-    [SerializeField] EntityModel _targetModel;
+    [SerializeField] LayerMask _avoidableObject; //Objetos que la IA puede evitar (faroles y esas cosas)
+    Transform _entityTarget;
+    EntityModel _targetModel;
+    Rigidbody _rb;
+    bool _lowHealth;
 
     //Variables de la Pseudo-blackboard
     Vector3 _targetLastPos;
 
+    //referencia del sleep state
+    SleepState<string> sleepState;
+
     private void Awake()
     {
-        _model = GetComponent<EntityModel>(); //Agarro el componente EntityModel
         _sight = GetComponent<Sight>(); //Agarro el componente sight
+        InitNPC();
+
+        _model = GetComponent<EntityModel>(); //Agarro el componente EntityModel
+        _rb = GetComponent<Rigidbody>(); //Agarro el RB
+        _lowHealth = false;
 
         InitFSM(); //Init de todo lo relacionado con la FSM
         InitDesicionTree(); //Init del Desicion Tree
@@ -50,6 +60,11 @@ public class EntityController : MonoBehaviour
     private void Update()
     {
         _fsm.OnUpdate();
+
+        if (_model.GetHealth() < 10 && !_lowHealth) { 
+            GoToEscapeState();
+            _lowHealth = true;
+        }
     }
 
     #region ~~~ FSM ~~~
@@ -61,12 +76,12 @@ public class EntityController : MonoBehaviour
 
         //Creo los distintos estados 
         IdleState<string> idleState = new IdleState<string>(this);
-        SearchState<string> searchState = new SearchState<string>(_list, transform, _mask, this);
+        SearchState<string> searchState = new SearchState<string>(_list, transform, _mask, this, _entityTarget, _avoidableObject);
         SightPursuitState<string> sightPursuitState = new SightPursuitState<string>(_entityTarget, this, _mask);
-        NoSightPursuitState<string> noSightPursuitState = new NoSightPursuitState<string>(this);
-        EscapeState<string> escapeState = new EscapeState<string>();
+        NoSightPursuitState<string> noSightPursuitState = new NoSightPursuitState<string>(this, _avoidableObject);
+        EscapeState<string> escapeState = new EscapeState<string>(this, _entityTarget, _rb);
         AttackState<string> attackState = new AttackState<string>(_targetModel, this);
-        SleepState<string> sleepState = new SleepState<string>(this);
+        sleepState = new SleepState<string>(this);
 
         //Creo las transiciones de cada estado
         idleState.AddTransition(_search, searchState);
@@ -112,9 +127,7 @@ public class EntityController : MonoBehaviour
         sleepState.AddTransition(_noSightPursuit, noSightPursuitState);
 
         //Inicializo la FSM
-        //_fsm.SetInitialState(idleState);
-        //_fsm.SetInitialState(searchState);
-        _fsm.SetInitialState(sightPursuitState);
+        _fsm.SetInitialState(idleState);
     }
 
     //Funciones para transiciones
@@ -146,6 +159,13 @@ public class EntityController : MonoBehaviour
     //Funcion para ejecutar el arbol de desiciones
     public void ExecuteTree()
     {
+        if (_fsm.GetState() == sleepState) return;
+        _sawTarget.Execute();
+    }
+
+    //Funcion que solo sera ejecutada desde el estado sleep porque permite salir del mismo estado
+    public void ExecuteTreeFromSleep()
+    {
         _sawTarget.Execute();
     }
     #endregion
@@ -176,7 +196,7 @@ public class EntityController : MonoBehaviour
     bool CanGoToLastPoint()
     {
         float distance = Vector3.Distance(_sight.LastPoint(), transform.position);
-        return distance > 2;
+        return distance > 4;
     }
 
     //Funcion que determina si esta o no a distancia de ataque
@@ -192,6 +212,11 @@ public class EntityController : MonoBehaviour
     public void Move(Vector3 dir)
     {
         _model.Move(dir);
+    }
+
+    public void Look(Vector3 position)
+    {
+        _model.Look(position);
     }
     #endregion
 
@@ -210,5 +235,18 @@ public class EntityController : MonoBehaviour
     {
         _sight.ResetSawTargetOnce();
     }
+    #endregion
+
+    #region ~~~ INIT-NPC FUNCTIONS ~~~
+    void InitNPC()
+    {
+        GameManager manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _list = manager.NodeList;
+        _entityTarget = manager.PlayerTransform;
+        _targetModel = manager.PlayerModel;
+
+        _sight.SetTarget(_entityTarget);
+    }
+
     #endregion
 }
