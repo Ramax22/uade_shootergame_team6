@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4702503667996407937}
   - component: {fileID: 7717350550801913592}
   - component: {fileID: 7832827563690524961}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,10 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79b4bbd97edf36048af4a962b0001010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 8
-  _timeToDispawn: 2
-  distance: 1
-  damage: 5
-  target:
-    serializedVersion: 2
-    m_Bits: 0
+  _speed: 15
+  _timeToDispawn: 5
+  _damage: 10

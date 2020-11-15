@@ -6,6 +6,7 @@ public class BulletController : MonoBehaviour
 {
     [SerializeField] float _speed;
     [SerializeField] float _timeToDispawn;
+    [SerializeField] float _damage;
 
     private void Awake()
     {
@@ -15,5 +16,14 @@ public class BulletController : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.forward * _speed * Time.deltaTime);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.tag == "Enemy")
+        {
+            other.transform.GetComponent<EntityModel>().ChangeLife(_damage);
+        }
+        Destroy(gameObject);
     }
 }

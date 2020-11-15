@@ -23,6 +23,16 @@ public class InputManager : MonoBehaviour
 
     Vector3 GetMovementInput()
     {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            _model._speed = _model._ogspeed * 1.5f;
+        }
+
+        else
+        {
+            _model._speed = _model._ogspeed;
+        }
+
         // es un getAxisRaw para que la reaccion sea mas rapida
         var xDir = Input.GetAxisRaw("Horizontal");
         var zDir = Input.GetAxisRaw("Vertical");
