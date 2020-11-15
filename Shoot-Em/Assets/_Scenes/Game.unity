@@ -2112,15 +2112,60 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2890f10acccaf9d47800fdeff1fdf9b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
+  enemy: {fileID: 8155642936838925439, guid: 6c913b0466f36c14f80bcc98e79abf95, type: 3}
   totalEnemies: 0
-  state: 1
   currentWave: 0
   nextWave: 0
-  searchTimer: 0
+  searchTimer: 5
   originalTimer: 0
+  state: 1
   foundEnemy: 0
   newWave: 0
+  waves:
+  - minEnemies: 3
+    maxEnemies: 5
+    spawnRate: 2
+  - minEnemies: 5
+    maxEnemies: 10
+    spawnRate: 2
+  - minEnemies: 10
+    maxEnemies: 20
+    spawnRate: 2
+  spawnPoints:
+  - {fileID: 600202409}
+  - {fileID: 940235213}
+  - {fileID: 370896610}
+  - {fileID: 955573946}
+  - {fileID: 139415426}
+  - {fileID: 1267729111}
+  - {fileID: 1066903569}
+  - {fileID: 2031349903}
+  - {fileID: 1664121644}
+  - {fileID: 445058190}
+  - {fileID: 136109833}
+  - {fileID: 1597100275}
+  - {fileID: 1956929126}
+  - {fileID: 196836131}
+  - {fileID: 1411675599}
+  - {fileID: 2078747165}
+  - {fileID: 1780486600}
+  - {fileID: 856771592}
+  - {fileID: 1021818844}
+  - {fileID: 1458933803}
+  - {fileID: 1200331026}
+  - {fileID: 2035930977}
+  - {fileID: 388169998}
+  - {fileID: 140151553}
+  - {fileID: 1353794375}
+  - {fileID: 35684660}
+  - {fileID: 1726043113}
+  - {fileID: 1158158445}
+  - {fileID: 143781311}
+  - {fileID: 1902535363}
+  - {fileID: 1532808033}
+  - {fileID: 1468253742}
+  - {fileID: 750009800}
+  spawn: {fileID: 0}
 --- !u!4 &339100373 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: 49bfd2e7a273e7a4ca574b30808dd0b4,
@@ -4167,7 +4212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -256, y: -26.249}
+  m_AnchoredPosition: {x: -256, y: -26.249023}
   m_SizeDelta: {x: 512, y: 52.497375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &710939626
@@ -4658,7 +4703,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0006713867, y: -0.000091552734}
+  m_AnchoredPosition: {x: -0.0007324219, y: -0.00012207031}
   m_SizeDelta: {x: 0.0013427734, y: -0.00018310547}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &856771590

@@ -5,7 +5,8 @@ using UnityEngine;
 public class EntityModel : MonoBehaviour
 {
     [SerializeField] GunController _gunController;
-    [SerializeField] float _speed;
+    [SerializeField] public float _speed;
+    [SerializeField] public float _ogspeed;
     [SerializeField] float _initialhealth;
 
     Rigidbody _rb;
@@ -13,6 +14,7 @@ public class EntityModel : MonoBehaviour
 
     private void Start()
     {
+        _ogspeed = _speed;
         _rb = GetComponent<Rigidbody>();
         _health = new HealthComponent(_initialhealth, Death);
     }

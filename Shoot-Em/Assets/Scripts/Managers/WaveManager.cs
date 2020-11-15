@@ -4,33 +4,44 @@ using UnityEngine;
 
 public class WaveManager : MonoBehaviour
 {
+    static public WaveManager Instance;
+
     [Header("Current Wave Info")]
     [SerializeField] private GameObject enemy;
     [SerializeField] public int totalEnemies;
 
     [Header("Variables")]
-    [SerializeField] private SpawnState state = SpawnState.WAITING;
-    [SerializeField] private int currentWave;
+    [SerializeField] public int currentWave;
     [SerializeField] private int nextWave;
     [SerializeField] public float searchTimer;
     [SerializeField] private float originalTimer;
+    [SerializeField] private SpawnState state = SpawnState.WAITING;
     [SerializeField] private bool foundEnemy;
     [SerializeField] private bool newWave;
 
     public enum SpawnState { SPAWNING, WAITING }
+    [Header("WAVES")]
     [SerializeField] public Wave[] waves;
+    [SerializeField] public Transform[] spawnPoints;
+    [SerializeField] public Transform spawn;
 
+    [System.Serializable]
     public class Wave
     {
-        [SerializeField] public GameObject enemyToSpawn;
         [SerializeField] public int minEnemies;
         [SerializeField] public int maxEnemies;
         [SerializeField] public float spawnRate;
     }
 
-    public void Start()
+    public void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         originalTimer = searchTimer;
+
     }
 
     public void Update()
@@ -74,7 +85,8 @@ public class WaveManager : MonoBehaviour
 
     public void SpawnEnemy(GameObject spawnEnemy)
     {
-        // Call Method to Instantiate;
+        spawn = spawnPoints[Random.Range(0, spawnPoints.Length)];
+        Instantiate(spawnEnemy, spawn.position, spawn.rotation);
     }
 
     public bool EnemyIsAlive()
@@ -83,14 +95,14 @@ public class WaveManager : MonoBehaviour
         if (searchTimer <= 0f)
         {
             //Debug.Log("Search");
-            if (GameObject.FindGameObjectWithTag("Virus") == null)
+            if (GameObject.FindGameObjectWithTag("Enemy") == null)
             {
                 //Debug.Log("Nothing is Alive");
                 foundEnemy = false;
                 return false;
             }
 
-            if (GameObject.FindGameObjectWithTag("Virus") != null)
+            if (GameObject.FindGameObjectWithTag("Enemy") != null)
             {
                 //Debug.Log("Enemy Alive");
                 foundEnemy = true;
