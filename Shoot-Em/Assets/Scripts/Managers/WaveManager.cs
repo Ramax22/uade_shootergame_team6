@@ -50,6 +50,11 @@ public class WaveManager : MonoBehaviour
 
     public void Update()
     {
+        if (currentWave >= maxWaves)
+        {
+            _hudManager.WinGame();
+            return;
+        }
         if (state == SpawnState.WAITING)
         {
             if (!EnemyIsAlive() && !newWave)

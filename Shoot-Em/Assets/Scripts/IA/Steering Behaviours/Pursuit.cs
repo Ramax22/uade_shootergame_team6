@@ -17,9 +17,15 @@ public class Pursit : ISteeringBehaviour
     }
     public Vector3 GetDir()
     {
-        float vel = _rbTarget.velocity.magnitude;
-        Vector3 posPrediction = _target.transform.position + _target.transform.forward * vel * _timePrediction;
-        Vector3 dir = (posPrediction - _npc.position).normalized;
-        return dir;
+        if (_rbTarget != null) { 
+            float vel = _rbTarget.velocity.magnitude;
+            Vector3 posPrediction = _target.transform.position + _target.transform.forward * vel * _timePrediction;
+            Vector3 dir = (posPrediction - _npc.position).normalized;
+            return dir;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
     }
 }
