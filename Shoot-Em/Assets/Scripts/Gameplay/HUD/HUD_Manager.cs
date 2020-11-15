@@ -54,7 +54,7 @@ public class HUD_Manager : MonoBehaviour
     //funcion para actualizar el numero de la wave
     void UpdateWave()
     {
-        int wave = _waveManager.CurrentWave;
+        int wave = _waveManager.CurrentWave + 1;
         _waveText.text = "WAVE: " + wave;
     }
     #endregion
