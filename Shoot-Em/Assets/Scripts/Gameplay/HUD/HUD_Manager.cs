@@ -7,22 +7,30 @@ using UnityEngine.SceneManagement;
 public class HUD_Manager : MonoBehaviour
 {
     //Vars
-    [SerializeField] Text _healthText;
-    [SerializeField] Text _timeText;
-    [SerializeField] EntityModel _playerModel;
-    [SerializeField] Text _waveText;
+    [Header("Main screens")]
     [SerializeField] GameObject _pauseMenu;
     [SerializeField] GameObject _inGameHUD;
+    [SerializeField] GameObject _winScreen;
+    [SerializeField] GameObject _loseScreen;
+
+    [Header("HUD Screen vars")]
+    [SerializeField] Text _healthText;
+    [SerializeField] Text _timeText;
+    [SerializeField] Text _waveText;
+
+    [Header("Win Screen vars")]
+    [SerializeField] Text _scoreText;
+
+    [Header("Extras")]
+    [SerializeField] EntityModel _playerModel;
     [SerializeField] WaveManager _waveManager;
 
     float _actualTime;
-    int _waveNumber;
     bool _pauseActive;
 
     private void Awake()
     {
         _actualTime = 0f;
-        _waveNumber = 0;
         _pauseActive = false;
     }
 
@@ -32,7 +40,12 @@ public class HUD_Manager : MonoBehaviour
         UpdateLife();
         UpdateWave();
         PauseMenuManager();
-        if (Input.GetKeyDown(KeyCode.Space)) Debug.Log(_waveManager.CurrentWave);
+    }
+
+    //Funcion para ir al Main Menu
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     #region ~~~ HUD MENU ~~~
@@ -88,11 +101,17 @@ public class HUD_Manager : MonoBehaviour
         _inGameHUD.SetActive(true);
         Time.timeScale = 1;
     }
+    #endregion
 
-    //Funcion para ir al Main Menu
-    public void GoToMainMenu()
+    #region ~~~ WIN MENU ~~~
+    //Funcion para actualizar el valor del texto de score
+    public void WinGame()
     {
-        SceneManager.LoadScene(0);
+        _winScreen.SetActive(true);
+        Time.timeScale = 0;
+        _scoreText.text = "Your playtime was: " + _actualTime + "s";
+        _pauseMenu.SetActive(false);
+        _inGameHUD.SetActive(false);
     }
     #endregion
 }

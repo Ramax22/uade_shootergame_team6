@@ -11,6 +11,8 @@ public class WaveManager : MonoBehaviour
     [SerializeField] public int totalEnemies;
 
     [Header("Variables")]
+    [SerializeField] HUD_Manager _hudManager;
+    [SerializeField] private int maxWaves;
     [SerializeField] private int currentWave;
     [SerializeField] private int nextWave;
     [SerializeField] public float searchTimer;
@@ -64,7 +66,12 @@ public class WaveManager : MonoBehaviour
 
         if (state != SpawnState.SPAWNING)
         {
-            StartCoroutine(SpawnWave(waves[CurrentWave]));
+            if (currentWave >= maxWaves)
+            {
+                _hudManager.WinGame();
+                return;
+            }
+            StartCoroutine(SpawnWave(waves[CurrentWave - 1]));
         }
     }
 
@@ -117,11 +124,7 @@ public class WaveManager : MonoBehaviour
     // TENGO QUE FIJARME EN ESTO !!!
     public void WaveCompleted()
     {
-        currentWave = nextWave;
-        if (nextWave + 1 > waves.Length - 1)
-        {
-            nextWave = 0;
-        }
-        nextWave += 1;
+        currentWave++;
+        if (currentWave == maxWaves) _hudManager.WinGame();
     }
 }

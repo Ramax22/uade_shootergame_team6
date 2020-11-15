@@ -8,6 +8,7 @@ public class EntityModel : MonoBehaviour
     [SerializeField] public float _speed;
     [SerializeField] public float _ogspeed;
     [SerializeField] float _initialhealth;
+    [SerializeField] HUD_Manager _hudManager;
 
     Rigidbody _rb;
     HealthComponent _health;
@@ -43,6 +44,7 @@ public class EntityModel : MonoBehaviour
 
     public void Death()
     {
+        //if (transform.parent.tag == "Player") _hudManager
         Destroy(transform.parent.gameObject);
     }
 

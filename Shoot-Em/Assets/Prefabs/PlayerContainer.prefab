@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1026620552977930683}
   m_Layer: 9
   m_Name: PlayerContainer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1026620554486754861}
   m_Layer: 9
   m_Name: PlayerModel
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -342,4 +342,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gunController: {fileID: 1026620552822067818}
   _speed: 5
+  _ogspeed: 0
   _initialhealth: 100
