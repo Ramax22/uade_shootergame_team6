@@ -77,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bullet: {fileID: 7832827563690524961, guid: 3d84cb1fa46fb7147b8ad580cfd173e4, type: 3}
   _shootPoint: {fileID: 1026620552811378218}
-  _shootingCooldownTime: 0.2
+  _shootingCooldownTime: 0.15
 --- !u!1 &1026620552977930692
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,3 +344,4 @@ MonoBehaviour:
   _speed: 5
   _ogspeed: 0
   _initialhealth: 100
+  _hudManager: {fileID: 0}
