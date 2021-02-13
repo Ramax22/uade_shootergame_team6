@@ -10,6 +10,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField] GameObject _aboutButton;
     [SerializeField] GameObject _exitButton;
     [SerializeField] GameObject _aboutMenu;
+    [SerializeField] GameObject _gameTitle;
 
     // Funcion de botones del Main Menu
     public void PlayGame()
@@ -23,6 +24,7 @@ public class MainMenuManager : MonoBehaviour
         _playButton.SetActive(false);
         _aboutButton.SetActive(false);
         _exitButton.SetActive(false);
+        _gameTitle.SetActive(false);
         _aboutMenu.SetActive(true);
     }
 
@@ -32,6 +34,7 @@ public class MainMenuManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         _aboutMenu.SetActive(false);
+        _gameTitle.SetActive(true);
         _playButton.SetActive(true);
         _aboutButton.SetActive(true);
         _exitButton.SetActive(true);
