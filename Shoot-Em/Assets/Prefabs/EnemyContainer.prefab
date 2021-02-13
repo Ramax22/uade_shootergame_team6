@@ -128,9 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gunController: {fileID: 0}
-  _speed: 5
+  _speed: 10
   _ogspeed: 0
   _initialhealth: 35
+  _hudManager: {fileID: 0}
 --- !u!114 &8155642935977766527
 MonoBehaviour:
   m_ObjectHideFlags: 0

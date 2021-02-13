@@ -12,7 +12,6 @@ public class WaveManager : MonoBehaviour
 
     [Header("Variables")]
     [SerializeField] HUD_Manager _hudManager;
-    [SerializeField] private int maxWaves;
     [SerializeField] private int currentWave;
     [SerializeField] private int nextWave;
     [SerializeField] public float searchTimer;
@@ -50,7 +49,7 @@ public class WaveManager : MonoBehaviour
 
     public void Update()
     {
-        if (currentWave >= maxWaves)
+        if (currentWave >= waves.Length)
         {
             _hudManager.WinGame();
             return;
@@ -71,7 +70,7 @@ public class WaveManager : MonoBehaviour
 
         if (state != SpawnState.SPAWNING)
         {
-            if (currentWave >= maxWaves)
+            if (currentWave >= waves.Length)
             {
                 _hudManager.WinGame();
                 return;
@@ -130,6 +129,6 @@ public class WaveManager : MonoBehaviour
     public void WaveCompleted()
     {
         currentWave++;
-        if (currentWave == maxWaves) _hudManager.WinGame();
+        if (currentWave == waves.Length) _hudManager.WinGame();
     }
 }
